@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>春休み六人旅 行き先ルーレット</title>
+  <meta name="description" content="春休みの六人旅の行き先を、25府県から完全ランダムで決めるルーレット">
+  <meta name="theme-color" content="#f7f0e1">
+  <meta property="og:title" content="春休み六人旅 行き先ルーレット">
+  <meta property="og:description" content="運命の旅先は、どこだ。25府県から完全ランダムで決定！">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌸%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="petals" id="petals" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="hero__badge">🌸 春休み・六人旅 🌸</p>
+    <h1 class="hero__title">行き先<em>ルーレット</em><span class="seal" aria-hidden="true">旅</span></h1>
+    <p class="hero__lead">運命の旅先は、どこだ。</p>
+  </header>
+
+  <main class="layout">
+    <section class="stage" aria-label="ルーレット">
+      <div class="wheel" id="wheel">
+        <div class="wheel__rim" id="rim" aria-hidden="true"></div>
+        <canvas class="wheel__canvas" id="wheelCanvas" width="1200" height="1200" role="img" aria-label="ルーレット盤面"></canvas>
+        <div class="wheel__pointer" aria-hidden="true">
+          <div class="wheel__pointer-inner" id="pointer">
+            <svg viewBox="0 0 60 82">
+              <defs>
+                <linearGradient id="pinGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f06a4a"/>
+                  <stop offset=".55" stop-color="#d9482b"/>
+                  <stop offset="1" stop-color="#9c2d16"/>
+                </linearGradient>
+              </defs>
+              <path d="M30 79 L8 31 A24 24 0 1 1 52 31 Z" fill="url(#pinGrad)" stroke="#c9a24a" stroke-width="3" stroke-linejoin="round"/>
+              <circle cx="30" cy="25" r="8.5" fill="#fff4dc" stroke="#c9a24a" stroke-width="2.5"/>
+            </svg>
+          </div>
+        </div>
+        <button class="wheel__hub" id="hubBtn" type="button" aria-label="ルーレットを回す">まわす</button>
+      </div>
+
+      <p class="status" id="status" aria-live="polite"></p>
+      <button class="spin-btn" id="spinBtn" type="button">ルーレットを回す</button>
+      <div class="stage__meta">
+        <button class="sound-btn" id="soundBtn" type="button" aria-pressed="true">🔊 効果音 ON</button>
+        <p class="fair">🎲 crypto.getRandomValues による完全ランダム抽選</p>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-labelledby="candTitle">
+        <div class="panel__head">
+          <h2 id="candTitle">候補 <span class="panel__count"><span id="candCount">25</span>/25</span></h2>
+          <button class="link-btn" id="allOnBtn" type="button">全部ON</button>
+        </div>
+        <p class="panel__note">タップで候補から外せます（2つ以上残してね）</p>
+        <div id="candidates"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="histTitle">
+        <div class="panel__head">
+          <h2 id="histTitle">抽選の履歴</h2>
+          <button class="link-btn" id="clearHistBtn" type="button">履歴を消す</button>
+        </div>
+        <ol class="history" id="history"></ol>
+        <p class="panel__note" id="historyEmpty">まだ回していません</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="footer">春休み、六人で最高の旅を。</footer>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="resultName">
+      <button class="modal__close" type="button" data-close aria-label="閉じる">×</button>
+      <div class="stamp" aria-hidden="true">決定</div>
+      <p class="modal__kicker">春休みの行き先は…</p>
+      <div class="modal__emoji" id="resultEmoji" aria-hidden="true"></div>
+      <h2 class="modal__name" id="resultName"></h2>
+      <p class="modal__region" id="resultRegion"></p>
+      <p class="modal__label">やりたいこと</p>
+      <ul class="modal__tags" id="resultTags"></ul>
+      <div class="modal__actions">
+        <button class="btn btn--primary" id="shareBtn" type="button">結果をシェアする</button>
+        <button class="btn" id="againBtn" type="button">もう一回まわす</button>
+        <button class="btn btn--ghost" id="excludeBtn" type="button">この県を外してもう一回</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">このページは JavaScript を有効にすると動きます。</p></noscript>
+  <script src="script.js"></script>
+</body>
+</html>
